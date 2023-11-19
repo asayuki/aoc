@@ -58,15 +58,15 @@ const runSolutions = async () => {
 
     for (const solution of solutions) {
       const module = await import(`./year/${year}/${solution}/index.js`);
-      console.log(`==============${solution < 10 ? '=' : '=='}\n Solving day ${solution}\n==============${solution < 10 ? '=' : '=='}`);
+      console.log(`==============${solution < 10 ? '=' : '=='}\n Solving ${module.title}\n==============${solution < 10 ? '=' : '=='}`);
 
-      if (module && typeof module.solution1 === 'function') {
-        const solution1 = await module.solution1();
+      if (module && typeof module.solution1 !== 'undefined') {
+        const solution1 = typeof module.solution1 === 'function' ? await module.solution1() : module.solution1;
         console.log(`Solution 1: ${solution1}`);
       }
 
-      if (module && typeof module.solution2 === 'function') {
-        const solution2 = await module.solution2();
+      if (module && typeof module.solution2 !== 'undefined') {
+        const solution2 = typeof module.solution2 === 'function' ? await module.solution2() : module.solution2;
         console.log(`Solution 2: ${solution2}`);
       }
 
