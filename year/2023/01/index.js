@@ -22,12 +22,12 @@ export class Day {
       lookup.forEach((item) => {
         let index = row.indexOf(item);
         while (index !== -1) {
-          matches[index] = row.substr(index, item.length);
+          matches[index] = stringToNumber(row.substr(index, item.length));
           index = row.indexOf(item, index + 1);
         }
       });
 
-      matches = matches.map(m => stringToNumber(m)).filter(n => n);
+      matches = matches.filter(n => n);
 
       return Number(`${matches[0]}${matches[matches.length - 1]}`) + current;
     }, 0);
