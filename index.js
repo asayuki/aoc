@@ -70,7 +70,7 @@ const runSolutions = async () => {
       const module = await import(`./year/${year}/${solution}/index.js`);
       const m = new module.Day(input);
 
-      console.log(`==============${solution < 10 ? '=' : '=='}\n Solving ${m.title}\n==============${solution < 10 ? '=' : '=='}`);
+      console.log(`--- ${m.title} ---\n`);
 
       if (m && typeof m.solution1 !== 'undefined') {
         const solution1 = typeof m.solution1 === 'function' ? await m.solution1(input) : m.solution1;
