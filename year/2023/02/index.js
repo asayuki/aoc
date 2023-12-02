@@ -28,9 +28,7 @@ export class Day {
 
       c.split(/[;,]+/).forEach((cube) => {
         const [num, color] = cube.trim().split(' ');
-        if (Number(num) > min[color]) {
-          min[color] = Number(num);
-        }
+        min[color] = Math.max(Number(num), min[color]);
       });
 
       return totalPower + Object.keys(min).reduce((current, color) => min[color] !== 0 ? current !== 0 ? current * min[color] : current + min[color] : current, 0);
