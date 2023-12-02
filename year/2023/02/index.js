@@ -2,11 +2,7 @@ export class Day {
   constructor(input) {
     this.title = 'Day 2: Cube Conundrum'
     this.input = input.split(/\n/);
-    this.rules = {
-      red: 12,
-      green: 13,
-      blue: 14,
-    };
+    this.rules = { red: 12, green: 13, blue: 14 };
   }
 
   solution1() {
