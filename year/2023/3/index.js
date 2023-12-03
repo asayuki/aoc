@@ -2,92 +2,49 @@ export class Day {
   constructor(input) {
     this.title = 'Day 3: Gear Ratio';
     this.input = input.split('\n');
+    
+    this.solution1 = this.findNumbers(/[^0-9.]/g).reduce((tot, num) => tot += num, 0);
+    this.solution2 = this.findNumbers(/\*/g, 2).reduce((tot, [num1, num2]) => tot += (num1 * num2), 0);
   }
 
-  solution1() {
-    let partsSum = 0;
-
-    this.input.forEach((row, rowIndex) => {
-      let number = '';
-      let numberFirstIndex = '';
-      let numberLastIndex = '';
-
-      for (let [columnIndex, column] of row.split('').entries()) {
-        if (column.match(/\b\d+\b/)) {
-          number += column;
-          numberFirstIndex = numberFirstIndex === '' ? columnIndex : numberFirstIndex;
-
-          if (columnIndex === row.length - 1) {
-            numberLastIndex = columnIndex;
-          }
-        }
-
-        if (!column.match(/\b\d+\b/)) {
-          if (number !== '') {
-            numberLastIndex = columnIndex - 1;
-          }
-        }
-
-        if (numberFirstIndex !== '' && numberLastIndex !== '') {
-          for (let r = ((rowIndex - 1 >= 0) ? rowIndex - 1 : rowIndex); r <= ((rowIndex + 1 <= this.input.length - 1) ? rowIndex + 1 : rowIndex); r += 1) {
-            for (let c = ((numberFirstIndex - 1 >= 0) ? numberFirstIndex - 1 : numberFirstIndex); c <= ((numberLastIndex + 1 <= row.length - 1) ? numberLastIndex + 1 : numberLastIndex); c += 1) {
-              if (this.input[r][c].match(/[^0-9.]/g)) {
-                partsSum += Number(number);
-              }
-            }
-          }
-
-          number = '';
-          numberFirstIndex = '';
-          numberLastIndex = '';
-        }
-      }
-    });
-
-    return partsSum;
-  }
-
-  solution2() {
-    let partsSum = 0;
-
+  findNumbers(find, reqNumbers = 1) {
+    let numbers = [];
     this.input.forEach((row, rowIndex) => {
       for (let [columnIndex, column] of row.split('').entries()) {
-        let first = null;
-        let second = null;
+        let nums = [];
 
-        if (column === '*') {
+        if (column.match(find)) {
           for (let r = rowIndex - 1; r <= rowIndex + 1; r += 1) {
             for (let c = columnIndex - 1; c <= columnIndex + 1; c += 1) {
-              if (this.input[r][c].match(/\b\d+\b/)) {
-                let startIndex = c;
-                while (startIndex > 0 && !isNaN(parseInt(this.input[r][startIndex - 1]))) {
-                  startIndex--;
+              if (this.input[r][c].match(/[0-9]/)) {
+                let numberStartIndex = c;
+                while (numberStartIndex >= 0 && !isNaN(parseInt(this.input[r][numberStartIndex - 1]))) {
+                  numberStartIndex--;
                 }
 
-                let endIndex = c;
-                while (endIndex < this.input[r].length && !isNaN(parseInt(this.input[r][endIndex]))) {
-                  endIndex++;
+                let numberEndIndex = c;
+                while (numberEndIndex < this.input[r].length && !isNaN(parseInt(this.input[r][numberEndIndex]))) {
+                  numberEndIndex++;
                 }
-                let number = this.input[r].substring(startIndex, endIndex);
-
-                c = endIndex;
-
-                if (first === null) {
-                  first = number;
-                } else {
-                  second = number;
-                }
+                let number = Number(this.input[r].substring(numberStartIndex, numberEndIndex));
+                c = numberEndIndex;
+                
+                nums.push(number);
               }
             }
           }
         }
 
-        if (first && second) {
-          partsSum += (first * second);
+        if (nums.length >= reqNumbers) {
+          if (reqNumbers === 1) {
+            numbers.push(...nums);
+          } else {
+            numbers.push(nums);
+          }
         }
       }
     });
 
-    return partsSum;
+    return numbers;
   }
 }
