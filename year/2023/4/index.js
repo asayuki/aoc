@@ -16,20 +16,14 @@ export class Day {
     const copiesOf = {};
     const points = this.input.reduce((points, [winning, my], index) => {
       copiesOf[index] = copiesOf[index] || 1;
-      const myWinningNumbers = my.filter((n) => winning.indexOf(n) !== -1);
-
-      let cardPoints = 0;
-      for (let i = 0; i < myWinningNumbers.length; i += 1) {
-        cardPoints = i === 0 ? 1 : cardPoints * 2;
-
-        if (typeof copiesOf[index + (i + 1)] === 'undefined') {
-          copiesOf[index + (i + 1)] = (copiesOf[index] * 1) + 1;
+      return points += my.filter((n) => winning.indexOf(n) !== -1).reduce((cardPoints, _, pointIndex) => {
+        if (typeof copiesOf[index + (pointIndex + 1)] === 'undefined') {
+          copiesOf[index + (pointIndex + 1)] = (copiesOf[index] * 1) + 1;
         } else {
-          copiesOf[index + (i + 1)] += copiesOf[index] * 1;
+          copiesOf[index + (pointIndex + 1)] += copiesOf[index] * 1;
         }
-      }
-
-      return points += cardPoints;
+        return pointIndex === 0 ? cardPoints + 1 : cardPoints * 2;
+      }, 0);
     }, 0);
 
     return [points, Object.keys(copiesOf).reduce((t, r) => t + copiesOf[r], 0)];
