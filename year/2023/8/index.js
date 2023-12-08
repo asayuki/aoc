@@ -4,8 +4,11 @@ const lcm = (a, b) => (a * b) / gcd(a, b);
 export class Day {
   constructor(input) {
     this.title = 'Day 8: Haunted Wasteland';
+    
     const [instructions, ...network] = input.split(/\n/);
+    
     this.instructions = instructions.split('');
+    
     network.shift();
     this.network = network.reduce((net, bit) => {
       const [destination, goto] = bit.split(' = ');
@@ -22,18 +25,16 @@ export class Day {
   }
 
   solution1() {
-    let currentPosition = 'AAA';
-    
-    for (let i = 0, steps = 1; i < this.instructions.length; i += 1, steps += 1) {
-      currentPosition = this.network[currentPosition][this.instructions[i]];
-      if (currentPosition === 'ZZZ') {
-        return steps;
-      }
+    let currentPoint = 'AAA';
+    let steps = 0;
 
-      if (i === this.instructions.length - 1) {
-        i = -1;
-      }
-    }
+    do {
+      const instruction = this.instructions[steps % this.instructions.length];
+      currentPoint = this.network[currentPoint][instruction];
+      steps += 1;
+    } while(currentPoint !== 'ZZZ');
+
+    return steps;
   }
 
   solution2() {
