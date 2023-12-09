@@ -16,7 +16,7 @@ export class Day {
   };
 
   checkReport = (report, reverse = false) => {
-    const newReport = [report];
+    const newReport = [reverse ? report.reverse() : report];
 
     do {
       newReport.push(this.getNextValues(newReport[newReport.length - 1]));
@@ -26,11 +26,11 @@ export class Day {
       if (newReport[i].every(val => val === 0)) {
         newReport[i].push(0)
       } else {
-        newReport[i].splice(reverse ? 0 : newReport[i].length, 0, reverse ? newReport[i][0] - newReport[i+1][0] : newReport[i][newReport[i].length - 1] + newReport[i + 1][newReport[i + 1].length - 1]);
+        newReport[i].splice(newReport[i].length, 0, newReport[i][newReport[i].length - 1] + newReport[i + 1][newReport[i + 1].length - 1]);
       }
     }
 
-    return reverse ? newReport[0].shift() : newReport[0].pop();
+    return newReport[0].pop();
   }
 
   solution1() {
