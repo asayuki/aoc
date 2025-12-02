@@ -20,12 +20,12 @@ export class Day {
             return seen;
         }
 
-        return this.input.reduce((acc, [start, end]) => acc +  findRepeats(start, end).keys().reduce((tot, num) => tot + num, 0), 0);
+        return this.input.reduce((acc, [start, end]) => acc + findRepeats(start, end).keys().reduce((tot, num) => tot + num, 0), 0);
 
     }
 
     solution2() {
-        const findSequenceRepeats = (start, end) => {
+        const findRepeats = (start, end) => {
             const seen = new Set();
             for (let i = start; i <= end; i++) {
                 if (i < 10) {
@@ -54,6 +54,6 @@ export class Day {
             return seen;
         }
 
-        return this.input.reduce((acc, [start, end]) => acc +  findSequenceRepeats(start, end).keys().reduce((tot, num) => tot + num, 0), 0);
+        return this.input.reduce((acc, [start, end]) => acc +  findRepeats(start, end).keys().reduce((tot, num) => tot + num, 0), 0);
     }
 }
