@@ -67,6 +67,11 @@ const runSolutions = async () => {
       if (fs.existsSync(path.join(`./year/${year}/${solution}/input.txt`))) {
         input = await Bun.file(`./year/${year}/${solution}/input.txt`).text();
       }
+
+      if (input === '') {
+        continue;
+      }
+
       const module = await import(`./year/${year}/${solution}/index.js`);
       const m = new module.Day(input);
 
