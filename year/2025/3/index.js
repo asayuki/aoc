@@ -1,6 +1,6 @@
 export class Day {
     constructor(input) {
-        this.title = 'Day 2: Lobby';
+        this.title = 'Day 3: Lobby';
         this.input = input.split(/\n/).map(line => line.split('').map(Number));
     }
 
